@@ -30,3 +30,11 @@
     X-Content-Type-Options = "nosniff"
     Referrer-Policy = "strict-origin-when-cross-origin"
     Permissions-Policy = "camera=(), microphone=(), geolocation=()"
+
+# Transparent proxy for backend API requests
+[[redirects]]
+  from = "/api/*"
+  to = "https://ciso-backend-ikcp.onrender.com/api/:splat"
+  status = 200
+  force = true
+  headers = {X-Forwarded-Host = "ciso-camwater.netlify.app"}

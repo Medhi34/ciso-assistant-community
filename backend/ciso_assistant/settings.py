@@ -240,10 +240,19 @@ logger.info("ENABLE_SANDBOX: %s", ENABLE_SANDBOX)
 logger.info("CISO_ASSISTANT_URL: %s", CISO_ASSISTANT_URL)
 # ALLOWED_HOSTS should contain the backend address
 ALLOWED_HOSTS = os.environ.get(
-    "ALLOWED_HOSTS", "localhost,127.0.0.1,host.docker.internal"
+    "ALLOWED_HOSTS", "*"
 ).split(",")
 logger.info("ALLOWED_HOSTS: %s", ALLOWED_HOSTS)
-CSRF_TRUSTED_ORIGINS = [CISO_ASSISTANT_URL]
+CSRF_TRUSTED_ORIGINS = [
+    CISO_ASSISTANT_URL,
+    "https://ciso-camwater.netlify.app",
+    "https://ciso-backend-ikcp.onrender.com",
+]
+if "CSRF_TRUSTED_ORIGINS" in os.environ:
+    CSRF_TRUSTED_ORIGINS.extend(
+        [origin.strip() for origin in os.environ["CSRF_TRUSTED_ORIGINS"].split(",") if origin.strip()]
+    )
+USE_X_FORWARDED_HOST = True
 LOCAL_STORAGE_DIRECTORY = os.environ.get(
     "LOCAL_STORAGE_DIRECTORY", BASE_DIR / "db/attachments"
 )
@@ -783,7 +792,7 @@ else:
                 "init_command": """
                 PRAGMA journal_mode=WAL;
                 PRAGMA synchronous=NORMAL;
-                PRAGMA mmap_size=134217728;
+                PRAGMA mmap_size=33554432;
                 PRAGMA journal_size_limit=27103364;
                 PRAGMA cache_size=2000;
             """,
