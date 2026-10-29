@@ -1,0 +1,25 @@
+services:
+  - type: web
+    name: ciso-backend
+    runtime: docker
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: ./backend
+    plan: free
+    region: frankfurt
+    envVars:
+      - key: ALLOWED_HOSTS
+        value: "*"
+      - key: CISO_ASSISTANT_URL
+        value: https://ciso-camwater.netlify.app
+      - key: DJANGO_DEBUG
+        value: "False"
+      - key: CISO_ASSISTANT_SUPERUSER_EMAIL
+        value: medhi.tombi@camwater.cm
+      - key: CISO_ASSISTANT_SUPERUSER_PASSWORD
+        value: Camwater26!
+      - key: FORCE_CREATE_ADMIN
+        value: "True"
+      - key: AUTH_TOKEN_TTL
+        value: "7200"
+      - key: DJANGO_SECRET_KEY
+        generateValue: true
