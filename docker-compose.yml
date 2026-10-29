@@ -14,6 +14,9 @@ services:
       - XDG_CONFIG_HOME=/tmp/.config
       - XDG_DATA_HOME=/tmp/.local/share
       - QDRANT_URL=http://qdrant:6333
+      - CISO_ASSISTANT_SUPERUSER_EMAIL=medhi.tombi@camwater.cm
+      - CISO_ASSISTANT_SUPERUSER_PASSWORD=Camwater26!
+      - FORCE_CREATE_ADMIN=True
     read_only: true
     cap_drop:
       - ALL
@@ -50,6 +53,9 @@ services:
       - XDG_CONFIG_HOME=/tmp/.config
       - XDG_DATA_HOME=/tmp/.local/share
       - QDRANT_URL=http://qdrant:6333
+      - CISO_ASSISTANT_SUPERUSER_EMAIL=medhi.tombi@camwater.cm
+      - CISO_ASSISTANT_SUPERUSER_PASSWORD=Camwater26!
+      - FORCE_CREATE_ADMIN=True
     read_only: true
     cap_drop:
       - ALL

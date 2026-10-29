@@ -2233,19 +2233,28 @@ def ensure_admin_user():
     )
 
     superuser_email = settings.CISO_ASSISTANT_SUPERUSER_EMAIL
+    superuser_password = getattr(settings, "CISO_ASSISTANT_SUPERUSER_PASSWORD", None)
     if superuser_email:
         superuser_exists = User.objects.filter(email=superuser_email).exists()
 
         if not superuser_exists and (settings.FORCE_CREATE_ADMIN or admin_group_empty):
             try:
-                User.objects.create_superuser(email=superuser_email, is_superuser=True)
+                User.objects.create_superuser(
+                    email=superuser_email,
+                    password=superuser_password,
+                    is_superuser=True
+                )
             except Exception as e:
                 logger.error("Error creating superuser", exc_info=True)
         elif superuser_exists and settings.FORCE_CREATE_ADMIN:
             user = User.objects.get(email=superuser_email)
+            updated_fields = ["is_superuser", "is_active"]
             if not user.is_superuser:
                 user.is_superuser = True
-                user.save(update_fields=["is_superuser", "is_active"])
+            if superuser_password:
+                user.set_password(superuser_password)
+                updated_fields.append("password")
+            user.save(update_fields=updated_fields)
 
     for u in User.objects.filter(is_superuser=True):
         u.user_groups.add(administrators)
