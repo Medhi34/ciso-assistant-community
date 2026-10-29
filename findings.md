@@ -12,7 +12,11 @@
   - Le fork du dépôt a été créé avec succès sur GitHub : `https://github.com/Medhi34/ciso-assistant-community`.
   - Les branches `main` et `deploy-netlify` ont été synchronisées et poussées avec toutes les configurations Netlify.
   - Le workflow GitHub Actions `Deploy CISO Assistant to Netlify` est activé et prêt.
-- **Statut Netlify CLI**:
-  - Netlify CLI est opérationnel dans l'environnement.
-  - La session Netlify n'est pas encore connectée localement (`Not logged in`).
-  - Deux chemins simples permettent de finaliser la liaison : soit la connexion interactive `npx netlify-cli login`, soit l'importation directe du dépôt GitHub `Medhi34/ciso-assistant-community` sur le tableau de bord Netlify.
+- **Résolution du build Netlify (Node 22 requis par pnpm)**:
+  - Le log d'échec Netlify a révélé l'erreur : `warn: This version of pnpm requires at least Node.js v22.13` et `Error [ERR_UNKNOWN_BUILTIN_MODULE]: No such built-in module: node:sqlite`.
+  - En effet, `pnpm@11.24.0` utilise le module natif `node:sqlite` apparu dans Node.js 22+.
+  - Correction : Passage de Node 20 à Node 22 dans `.nvmrc`, `frontend/.nvmrc`, `netlify.toml` et `frontend/netlify.toml`.
+- **Résolution des échecs Plumber GitHub**:
+  - Les anciens runs échouaient car Plumber vérifiait la protection de branche sur `main`.
+  - Le workflow `.github/workflows/plumber.yml` a été restreint à `intuitem/ciso-assistant-community` uniquement (`if: github.repository == 'intuitem/ciso-assistant-community'`).
+  - Résultat : Les runs Plumber sur votre fork `Medhi34/ciso-assistant-community` sont désormais marqués `skipped` sans aucune erreur.
