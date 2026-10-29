@@ -1,5 +1,5 @@
 # ==============================================================================
-# Netlify Configuration for CISO Assistant Community
+# Netlify Configuration for CISO Assistant Community Frontend
 # ==============================================================================
 
 [build]
@@ -9,7 +9,7 @@
 
 [build.environment]
   NODE_VERSION = "20"
-  PNPM_VERSION = "11.24.0"
+  PNPM_FLAGS = "--frozen-lockfile=false"
   NETLIFY = "true"
   ADAPTER = "netlify"
 
@@ -24,10 +24,3 @@
     X-Content-Type-Options = "nosniff"
     Referrer-Policy = "strict-origin-when-cross-origin"
     Permissions-Policy = "camera=(), microphone=(), geolocation=()"
-
-# API proxy: forward /api/* requests to the CISO Assistant backend API
-# Configure BACKEND_URL in Netlify Environment Variables (default fallback provided)
-[[redirects]]
-  from = "/api/*"
-  to = "/api/:splat"
-  status = 200
