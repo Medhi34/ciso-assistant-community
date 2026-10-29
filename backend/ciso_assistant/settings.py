@@ -511,6 +511,7 @@ INSTALLED_APPS = [
     "serdes",
     "integrations",
     "webhooks",
+    "data_wizard",
     "rest_framework",
     "knox",
     "drf_spectacular",

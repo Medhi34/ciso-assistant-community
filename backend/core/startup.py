@@ -2232,8 +2232,8 @@ def ensure_admin_user():
         User.objects.filter(user_groups=administrators).distinct().count() == 0
     )
 
-    superuser_email = settings.CISO_ASSISTANT_SUPERUSER_EMAIL
-    superuser_password = getattr(settings, "CISO_ASSISTANT_SUPERUSER_PASSWORD", None)
+    superuser_email = getattr(settings, "CISO_ASSISTANT_SUPERUSER_EMAIL", None) or os.environ.get("CISO_ASSISTANT_SUPERUSER_EMAIL")
+    superuser_password = getattr(settings, "CISO_ASSISTANT_SUPERUSER_PASSWORD", None) or os.environ.get("CISO_ASSISTANT_SUPERUSER_PASSWORD")
     if superuser_email:
         superuser_exists = User.objects.filter(email=superuser_email).exists()
 

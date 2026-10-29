@@ -16,6 +16,8 @@
   ROLLDOWN_WORKER_THREADS = "1"
   ROLLDOWN_MAX_BLOCKING_THREADS = "1"
   RAYON_NUM_THREADS = "1"
+  PUBLIC_BACKEND_API_URL = "https://ciso-backend-ikcp.onrender.com/api"
+  PUBLIC_BACKEND_API_EXPOSED_URL = "https://ciso-backend-ikcp.onrender.com/api"
 
 [functions]
   node_bundler = "esbuild"

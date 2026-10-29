@@ -12,9 +12,15 @@ if [ ! -n "$DJANGO_SECRET_KEY" ]; then
   export DJANGO_SECRET_KEY=$(<db/django_secret_key)
   echo "Django secret key read from file"
 fi
-while ! python manage.py showmigrations iam >/dev/null; do
-  echo "database not ready; waiting"
-  sleep 15
+RETRY_COUNT=0
+while ! python manage.py showmigrations iam; do
+  echo "database not ready; waiting ($RETRY_COUNT/10)"
+  RETRY_COUNT=$((RETRY_COUNT+1))
+  if [ $RETRY_COUNT -ge 10 ]; then
+    echo "ERROR: Database check failed repeatedly" >&2
+    exit 1
+  fi
+  sleep 5
 done
 python manage.py migrate --settings="${DJANGO_SETTINGS_MODULE}" || { echo "ERROR: database migration failed (see traceback above); backend not started, fix the error then restart the container" >&2; exit 1; }
 python manage.py storelibraries --settings="${DJANGO_SETTINGS_MODULE}" || echo "WARNING: storing built-in libraries failed (see traceback above); backend starting anyway, new or updated libraries may be missing" >&2
