@@ -3,6 +3,7 @@
 if [ ! -n "$DJANGO_SETTINGS_MODULE" ]; then
   export DJANGO_SETTINGS_MODULE=ciso_assistant.settings
 fi
+mkdir -p db
 if [ ! -n "$DJANGO_SECRET_KEY" ]; then
   if [ ! -f db/django_secret_key ]; then
     openssl rand -hex 32 | install -m 600 /dev/stdin db/django_secret_key
