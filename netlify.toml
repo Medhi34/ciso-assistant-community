@@ -9,6 +9,7 @@
 
 [build.environment]
   NODE_VERSION = "22"
+  NODE_OPTIONS = "--max-old-space-size=4096"
   PNPM_FLAGS = "--frozen-lockfile=false"
   NETLIFY = "true"
   ADAPTER = "netlify"

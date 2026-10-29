@@ -21,6 +21,23 @@ const config = {
 	// for more information about preprocessors
 	preprocess: vitePreprocess(),
 
+	compilerOptions: {
+		warningFilter: (warning) => {
+			// Suppress non-critical Svelte 5 warnings that flood CI logs and memory
+			if (
+				warning.code === 'state_referenced_locally' ||
+				warning.code === 'non_reactive_update' ||
+				warning.code === 'event_directive_deprecated' ||
+				warning.code === 'svelte_self_deprecated' ||
+				warning.code === 'css_unused_selector' ||
+				warning.code.startsWith('a11y_')
+			) {
+				return false;
+			}
+			return true;
+		}
+	},
+
 	kit: {
 		// adapter-auto only supports some environments, see https://kit.svelte.dev/docs/adapter-auto for a list.
 		// If your environment is not supported or you settled on a specific environment, switch out the adapter.
