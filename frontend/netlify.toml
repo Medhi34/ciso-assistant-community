@@ -1,0 +1,16 @@
+# ==============================================================================
+# Netlify Configuration for Frontend Subdirectory
+# ==============================================================================
+
+[build]
+  command = "pnpm run build"
+  publish = ".svelte-kit/netlify"
+
+[build.environment]
+  NODE_VERSION = "20"
+  PNPM_FLAGS = "--frozen-lockfile=false"
+  NETLIFY = "true"
+  ADAPTER = "netlify"
+
+[functions]
+  node_bundler = "esbuild"
