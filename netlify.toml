@@ -1,0 +1,33 @@
+# ==============================================================================
+# Netlify Configuration for CISO Assistant Community
+# ==============================================================================
+
+[build]
+  base = "frontend"
+  command = "pnpm run build"
+  publish = ".svelte-kit/netlify"
+
+[build.environment]
+  NODE_VERSION = "20"
+  PNPM_VERSION = "11.24.0"
+  NETLIFY = "true"
+  ADAPTER = "netlify"
+
+[functions]
+  node_bundler = "esbuild"
+
+# Security and caching headers
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "SAMEORIGIN"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=()"
+
+# API proxy: forward /api/* requests to the CISO Assistant backend API
+# Configure BACKEND_URL in Netlify Environment Variables (default fallback provided)
+[[redirects]]
+  from = "/api/*"
+  to = "/api/:splat"
+  status = 200
