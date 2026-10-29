@@ -15,6 +15,10 @@ export default defineConfig({
 		tailwindcss(),
 		sveltekit()
 	],
+	build: {
+		reportCompressedSize: false,
+		sourcemap: false
+	},
 	optimizeDeps: {
 		// @svelte-put/qr exports ./svg/QR.svelte under the "svelte" condition only.
 		// Vite 8's dep scanner doesn't apply it, so scope the condition to the
