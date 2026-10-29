@@ -35,7 +35,9 @@ export const load: PageServerLoad = async ({ fetch, request, locals }) => {
 
 	const form = await superValidate(request, zod(loginSchema));
 
-	const SSOInfo = await fetch(`${BASE_API_URL}/settings/sso/info/`).then((res) => res.json());
+	const SSOInfo = await fetch(`${BASE_API_URL}/settings/sso/info/`)
+		.then((res) => (res.ok ? res.json() : { is_enabled: false }))
+		.catch(() => ({ is_enabled: false }));
 
 	const mfaAuthenticateForm = await superValidate(request, zod(mfaAuthenticateSchema));
 

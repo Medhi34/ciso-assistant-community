@@ -48,8 +48,9 @@ async function fetchWithRetry(
 			if (response.ok || !RETRYABLE_STATUSES.has(response.status) || attempt === retries - 1) {
 				return response;
 			}
-		} catch (error) {
-			if (attempt === retries - 1) throw error;
+		} catch (error: any) {
+			const code = error?.cause?.code || error?.code;
+			if (code === 'ECONNREFUSED' || code === 'ENOTFOUND' || attempt === retries - 1) throw error;
 		}
 		await new Promise((r) => setTimeout(r, delay * (attempt + 1)));
 	}

@@ -132,7 +132,7 @@
 					{/snippet}
 				</SuperForm>
 			</div>
-			{#if data.SSOInfo.is_enabled}
+			{#if data.SSOInfo?.is_enabled}
 				<div class="flex items-center justify-center w-full space-x-2">
 					<hr class="w-64 items-center bg-surface-200-800 border-0" />
 					<span class="flex items-center text-surface-600-400 text-sm">{m.or()}</span>
