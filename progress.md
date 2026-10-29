@@ -8,8 +8,11 @@
   - Mise à jour de `frontend/svelte.config.js` avec chargement dynamique de l'adaptateur Netlify en mode `NETLIFY=true` / `ADAPTER=netlify`, et fallback sécurisé `adapterNode`.
   - Création de `netlify.toml` (racine) et `frontend/netlify.toml` avec configurations de build, variables, headers et redirections.
 - [x] Phase 3: Validation du build local et installation des dépendances (terminé avec succès en 3m 12s, artefacts `.svelte-kit/netlify` et `.netlify/functions-internal` générés et validés).
-- [x] Phase 4: Automatisation du déploiement:
-  - Création de `deploy-netlify.ps1` (script PowerShell prêt à l'emploi avec gestion du site `ciso` et backend URL).
-  - Création de `deploy-netlify.sh` (script Bash pour Linux/CI).
-  - Création de `.github/workflows/deploy-netlify.yml` (CI/CD GitHub Actions).
-  - Création du guide complet `NETLIFY_DEPLOYMENT.md`.
+- [x] Phase 5: Authentification GitHub et Publication du Dépôt:
+  - Récupération du jeton GitHub OAuth de `Medhi34`.
+  - Création automatique du dépôt distant: `https://github.com/Medhi34/ciso-assistant-community`.
+  - Configuration des remotes `origin` (Medhi34) et `upstream` (intuitem).
+  - Validation et commit des configurations Netlify.
+  - Push des branches `main` et `deploy-netlify` vers GitHub.
+  - Activation du workflow GitHub Actions `.github/workflows/deploy-netlify.yml`.
+  - Vérification de l'état Netlify CLI : en attente d'autorisation de compte utilisateur Netlify (`netlify login` ou import Netlify dashboard).
