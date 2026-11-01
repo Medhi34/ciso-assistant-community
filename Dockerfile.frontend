@@ -1,6 +1,7 @@
 FROM ghcr.io/intuitem/ciso-assistant-community/frontend:latest
 
-ENV PUBLIC_BACKEND_API_URL=https://ciso-backend-ikcp.onrender.com/api \
+ENV NODE_OPTIONS="--max-old-space-size=384" \
+    PUBLIC_BACKEND_API_URL=https://ciso-backend-ikcp.onrender.com/api \
     PUBLIC_BACKEND_API_EXPOSED_URL=https://ciso-backend-ikcp.onrender.com/api \
     PROTOCOL_HEADER=x-forwarded-proto \
     HOST_HEADER=x-forwarded-host \
