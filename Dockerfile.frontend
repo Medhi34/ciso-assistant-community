@@ -1,0 +1,11 @@
+FROM ghcr.io/intuitem/ciso-assistant-community/frontend:latest
+
+ENV PUBLIC_BACKEND_API_URL=https://ciso-backend-ikcp.onrender.com/api \
+    PUBLIC_BACKEND_API_EXPOSED_URL=https://ciso-backend-ikcp.onrender.com/api \
+    PROTOCOL_HEADER=x-forwarded-proto \
+    HOST_HEADER=x-forwarded-host \
+    BODY_SIZE_LIMIT=50000000 \
+    NODE_ENV=production \
+    PORT=3000
+
+EXPOSE 3000
