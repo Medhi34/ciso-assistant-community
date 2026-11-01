@@ -52,6 +52,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
+          DEST_BASE="$(echo "${DEST_BASE}" | tr '[:upper:]' '[:lower:]')"
           fail=0
           # Fail fast on a malformed manifest: process substitution below does not
           # propagate jq's exit status through set -e, so validate up front.

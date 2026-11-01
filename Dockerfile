@@ -2,7 +2,6 @@ FROM ghcr.io/intuitem/ciso-assistant-community/backend:latest
 
 COPY backend/ciso_assistant/settings.py /code/ciso_assistant/settings.py
 COPY backend/core/startup.py /code/core/startup.py
-COPY backend/core/custom_middleware.py /code/core/custom_middleware.py
 COPY backend/startup.sh /code/startup.sh
 
 RUN chmod +x /code/startup.sh
