@@ -7,6 +7,14 @@
   command = "pnpm run build"
   publish = ".svelte-kit/netlify"
 
+[environment]
+  PUBLIC_BACKEND_API_URL = "https://ciso-backend-ikcp.onrender.com/api"
+  PUBLIC_BACKEND_API_EXPOSED_URL = "https://ciso-backend-ikcp.onrender.com/api"
+
+[context.production.environment]
+  PUBLIC_BACKEND_API_URL = "https://ciso-backend-ikcp.onrender.com/api"
+  PUBLIC_BACKEND_API_EXPOSED_URL = "https://ciso-backend-ikcp.onrender.com/api"
+
 [build.environment]
   NODE_VERSION = "22"
   NODE_OPTIONS = "--max-old-space-size=2560"

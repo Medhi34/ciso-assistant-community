@@ -3,7 +3,37 @@ from uuid import uuid4
 from auditlog import middleware
 from auditlog.cid import correlation_id, set_cid
 from auditlog.context import set_extra_data
+from django.http import HttpResponse
 from django.utils.functional import SimpleLazyObject
+
+
+class SimpleCorsMiddleware:
+    def __init__(self, get_response):
+        self.get_response = get_response
+
+    def __call__(self, request):
+        origin = request.headers.get("Origin", "")
+        # Handle preflight OPTIONS requests directly
+        if request.method == "OPTIONS":
+            response = HttpResponse(status=200)
+        else:
+            response = self.get_response(request)
+
+        allowed_origins = [
+            "https://ciso-camwater.netlify.app",
+            "http://localhost:5173",
+            "http://localhost:3000",
+        ]
+        if origin in allowed_origins or origin.endswith(".netlify.app"):
+            response["Access-Control-Allow-Origin"] = origin
+            response["Access-Control-Allow-Credentials"] = "true"
+            response["Access-Control-Allow-Methods"] = "GET, POST, PUT, PATCH, DELETE, OPTIONS, HEAD"
+            response["Access-Control-Allow-Headers"] = (
+                "Authorization, Content-Type, X-CSRFToken, X-Session-Token, "
+                "X-Focus-Folder-Id, Accept-Language, Accept, Origin, X-Requested-With"
+            )
+            response["Access-Control-Expose-Headers"] = "Content-Disposition, Content-Type, Content-Length"
+        return response
 
 
 # Fix the actor resolution with the custom middleware

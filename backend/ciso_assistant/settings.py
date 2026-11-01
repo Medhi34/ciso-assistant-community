@@ -537,6 +537,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    "core.custom_middleware.SimpleCorsMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.locale.LocaleMiddleware",

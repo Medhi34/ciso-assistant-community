@@ -1,9 +1,12 @@
 import { env } from '$env/dynamic/public';
 import { m } from '$paraglide/messages';
 
-const rawBackendApiUrl = Object.hasOwn(env, 'PUBLIC_BACKEND_API_URL')
-	? env.PUBLIC_BACKEND_API_URL
-	: 'http://localhost:8000/api';
+const defaultBackendUrl = 'https://ciso-backend-ikcp.onrender.com/api';
+
+const rawBackendApiUrl =
+	typeof env !== 'undefined' && env.PUBLIC_BACKEND_API_URL
+		? env.PUBLIC_BACKEND_API_URL
+		: defaultBackendUrl;
 
 // Strip default ports so this matches request.url in handleFetch's startsWith check (issue #4422).
 export const BASE_API_URL = (() => {
@@ -15,13 +18,13 @@ export const BASE_API_URL = (() => {
 })();
 
 export const DEFAULT_LANGUAGE = `${
-	Object.hasOwn(env, 'PUBLIC_DEFAULT_LANGUAGE') ? env.PUBLIC_DEFAULT_LANGUAGE : 'en'
+	typeof env !== 'undefined' && env.PUBLIC_DEFAULT_LANGUAGE ? env.PUBLIC_DEFAULT_LANGUAGE : 'en'
 }`;
 
 export const ALLAUTH_API_URL = `${BASE_API_URL}/_allauth/app/v1`;
 
 export const BACKEND_API_EXPOSED_URL = `${
-	Object.hasOwn(env, 'PUBLIC_BACKEND_API_EXPOSED_URL')
+	typeof env !== 'undefined' && env.PUBLIC_BACKEND_API_EXPOSED_URL
 		? env.PUBLIC_BACKEND_API_EXPOSED_URL
 		: BASE_API_URL
 }`;

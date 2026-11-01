@@ -66,13 +66,36 @@ export const actions: Actions = {
 			body: JSON.stringify(login)
 		};
 
-		const res = await fetch(endpoint, requestInitOptions).then((res) => res.json());
+		let res: any;
+		try {
+			const rawRes = await fetch(endpoint, requestInitOptions);
+			const text = await rawRes.text();
+			try {
+				res = JSON.parse(text);
+			} catch {
+				logger.error('Login backend returned non-JSON', { status: rawRes.status, body: text });
+				setError(
+					form,
+					'username',
+					`Erreur serveur (${rawRes.status}). Le backend est en cours de démarrage, veuillez réessayer dans quelques instants.`
+				);
+				return fail(502, { form });
+			}
+		} catch (err: any) {
+			logger.error('Login fetch failed', { error: err });
+			setError(
+				form,
+				'username',
+				'Impossible de contacter le serveur d’authentification. Veuillez patienter quelques secondes (démarrage du backend) et réessayer.'
+			);
+			return fail(503, { form });
+		}
 
 		if (res.status !== 200) {
 			logger.warning('Login failed', { status: res.status });
-			if (res.errors) {
-				res.errors.forEach((error) => {
-					setError(form, error.param, error.code);
+			if (res.errors && res.errors.length > 0) {
+				res.errors.forEach((error: any) => {
+					setError(form, error.param || 'username', error.code || error.message || 'Identifiants invalides');
 				});
 				return fail(res.status, { form });
 			}
@@ -100,7 +123,8 @@ export const actions: Actions = {
 					}
 				}
 			}
-			return { form };
+			setError(form, 'username', 'Identifiants incorrects ou accès refusé.');
+			return fail(res.status || 400, { form });
 		}
 
 		cookies.set('token', res.meta.access_token, {
